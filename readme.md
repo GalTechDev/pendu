@@ -1,15 +1,12 @@
----
-titre : README pour `Pendu`
----
 
-`Pendu` : une implémentation Python du pendu
+## `Pendu` : une implémentation Python du pendu
 
 **Table des matières**
 
 1. [Aperçu](#aperçu)
 2. [Comment jouer](#comment-jouer)
-3. [Fonctionnalités](#fonctionnalités)
-4. [Directives de contribution](#contribution-guidelines)
+3. [Fonctionnalités](#caractéristiques)
+4. [Directives de contribution](#informations-multijoueur)
 
 **Aperçu**
 -----------
