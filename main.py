@@ -25,7 +25,7 @@ def fin(motM: list, nom: str, serveur: str) -> None:
         parametres: str = serveur_read(serveur)
 
     else:
-        print(f'Bravo tu a trouvé le mot "', end="")
+        print(f'Bravo tu as trouvé le mot "', end="")
         
         affichage(motM)
 
@@ -40,11 +40,11 @@ def fin(motM: list, nom: str, serveur: str) -> None:
     motM: str = parametres[2]
     gagnant: str = parametres[3]
 
-    print('Bravo tu a trouvé le mot "', end="")
+    print('Bravo tu as trouvé le mot "', end="")
     affichage(motM)
 
     if gagnant == "None":
-        parametre: str = joueur1 + SEPARATOR + joueur2 + SEPARATOR + motM + SEPARATOR + nom
+        parametre: str = f"{joueur1}{SEPARATOR}{joueur2}{SEPARATOR}{motM}{SEPARATOR}{nom}"
 
         if serveur is not None:
             serveur_write(serveur, parametre)
@@ -73,15 +73,15 @@ def Multijeur() -> None:
             if joueur1 == "None":
                 joueur1: str = nom
                 hote: bool = True
-                parametre: str = joueur1 + SEPARATOR + joueur2
 
             elif joueur2 == "None":
                 joueur2: str = nom
                 hote: str = False
-                parametre: str = joueur1 + SEPARATOR + joueur2
-
+                
             else:
                 continue
+            
+            parametre: str = f"{joueur1}{SEPARATOR}{joueur2}"
             
             serveur_write(serveur, parametre)
             return serveur, hote
@@ -98,10 +98,10 @@ def Multijeur() -> None:
         serveur, hote = connection()
 
         if (serveur, hote) == (None, None):
-            print("\nTous les serveurs sont plein, veillez ré-ésseiller plus tard")
+            print("\nTous les serveurs sont pleins, veillez réessayer plus tard")
             break
 
-        print("En attente de joueur...")
+        print("En attente d'un joueur...")
 
         while True:
             if serveur is not None:
@@ -115,7 +115,7 @@ def Multijeur() -> None:
             joueur1: str = parametre[0]
             joueur2: str = parametre[1]
 
-            if joueur1 is not "None" and joueur2 is not "None":
+            if joueur1 != "None" and joueur2 != "None":
                 break
 
             sleep(0.7)
@@ -131,7 +131,7 @@ def Multijeur() -> None:
             joueur2: str = parametre[1]
             joueurG: str = "None"
             
-            parametre: str = joueur1 + SEPARATOR + joueur2 + SEPARATOR + motM + SEPARATOR + joueurG
+            parametre: str = f"{joueur1}{SEPARATOR}{joueur2}{SEPARATOR}{motM}{SEPARATOR}{joueurG}"
 
             if serveur is not None:
                 serveur_write(serveur, parametre)
@@ -170,8 +170,6 @@ def initialisation(motM=None, nom=None, serveur=None):
         motM: str = choice(motT)
         vie: int = 5
 
-        print(motM)
-
     motM1: list = list(motM)
     motM: list = list(motM)
     nbL: int = len(motM)
@@ -189,21 +187,21 @@ def testLettre(ch: str, motM: str, motM1: str, nbL: int, vie: int = None, nom: s
         
         print(f"Il n'y a pas de {ch}")
         saisie(motM, motM1, nbL, vie, nom, serveur)
+        return
 
-    else:
-        for i in range(0,nbL):
-            if ch == motM[i]:
-                if motM1[i] == "_":
-                    motM1[i] = ch  
+    for i in range(0,nbL):
+        if ch == motM[i]:
+            if motM1[i] == "_":
+                motM1[i] = ch  
 
-                else:
-                    print("Tu a déjà saisie cette lettre")  
+            else:
+                print("Tu as déjà saisie cette lettre")  
 
-        if motM1 == motM:
-            fin(motM, nom, serveur)
+    if motM1 == motM:
+        fin(motM, nom, serveur)
+        return
 
-        else:
-            saisie(motM, motM1, nbL, vie, nom, serveur)
+    saisie(motM, motM1, nbL, vie, nom, serveur)
 
     
 def testMot(ch: str, motM: str, motM1: str, nbL: int, vie: int = None, nom: str = None, serveur: str = None):
@@ -228,18 +226,18 @@ def saisie(motM: str, motM1: str, nbL: int, vie: int = None, nom: str = None, se
             print("\n", f"Il te reste {vie} vie")
 
     else:
-        print("\nTu n'a plus de vie\n")
+        print("\nTu n'as plus de vie\n")
         menu()
 
     while True:
-        ch: str = input("\nSaisie une lettre ou un mot: ")
+        ch: str = input("\nSaisie une lettre ou un mot : ")
 
         if len(ch) == 1:
             testLettre(ch, motM, motM1, nbL, vie, nom, serveur)
             break
 
         elif len(ch) == 0:
-            print("Tu n'a rien écris")
+            print("Tu n'as rien écrit")
             continue
 
         else:
@@ -248,10 +246,9 @@ def saisie(motM: str, motM1: str, nbL: int, vie: int = None, nom: str = None, se
   
 
 def menu_list_mode():
-    print("\nMode de jeu:\n1) Solo\n2)Multijoueur\n3)Crédit")
-
     while True:
-        choix: str = input("Entrer le numéro du mode de jeu à laquelle vous voulez jouer: ")
+        print("\nMode de jeu:\n1) Solo\n2)Multijoueur\n3)Crédit")
+        choix: str = input("Entrer le numéro du mode de jeu auquel vous voulez jouer: ")
 
         if choix == "1":
             initialisation()
@@ -261,7 +258,7 @@ def menu_list_mode():
 
         elif choix == "3":
             print("\nCodé par Maxence Moreau")
-            input("Appuyer sur Entrée pour revenir au menu: ")
+            input('Appuyer sur "Entrée" pour revenir au menu: ')
             menu()
 
         else:
